@@ -1,0 +1,10 @@
+Bundle-Name: student-headless-service-api
+Bundle-SymbolicName: com.student.headless.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.student.headless.exception,\
+	com.student.headless.model,\
+	com.student.headless.service,\
+	com.student.headless.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../student-headless-service-service/service.xml

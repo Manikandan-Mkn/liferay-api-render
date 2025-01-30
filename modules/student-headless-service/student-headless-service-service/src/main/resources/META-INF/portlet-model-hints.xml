@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.student.headless.model.employee">
+		<field name="employeeId" type="long" />
+		<field name="employeeName" type="String" />
+		<field name="department" type="String" />
+		<field name="age" type="String" />
+		<field name="mobileNumber" type="long" />
+		<field name="salary" type="long" />
+	</model>
+	<model name="com.student.headless.model.student">
+		<field name="id" type="long" />
+		<field name="name" type="String" />
+		<field name="standard" type="String" />
+	</model>
+</model-hints>

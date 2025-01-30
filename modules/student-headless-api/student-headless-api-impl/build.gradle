@@ -1,0 +1,15 @@
+dependencies {
+	compile project(":modules:student-headless-api:student-headless-api-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+
+	restBuilder group: "com.liferay", name: "com.liferay.portal.tools.rest.builder", version: "1.0.222"
+	
+	compileOnly group: "javax.annotation", name: "javax.annotation-api" , version: "1.3.2"
+	
+	compile project(":modules:student-headless-service:student-headless-service-api")
+	
+	 compileOnly group: "com.liferay", name: "com.liferay.portal.vulcan.api", version: "4.0.48"
+}
+
+group = "student.headless.api"

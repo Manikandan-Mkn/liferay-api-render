@@ -1,0 +1,6 @@
+Bundle-Name: student-headless-api-api
+Bundle-SymbolicName: student.headless.api.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	student.headless.api.dto.v1_0,\
+	student.headless.api.resource.v1_0
