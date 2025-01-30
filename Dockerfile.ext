@@ -1,5 +1,5 @@
-# Use the official Liferay 7.4 DXP image as base
-FROM liferay/portal:7.4.0-dxp
+# Use a valid Liferay 7.4.x DXP image tag (adjust to available version)
+FROM liferay/portal:7.4.3-dxp
 
 # Label to identify the maintainer (optional)
 LABEL maintainer="Your Name <your-email@example.com>"
