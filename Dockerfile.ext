@@ -1,18 +1,12 @@
-# Use the official Liferay DXP image as the base image
+# Stage 1: Build the application
+FROM liferay/dxp:7.4.13-u80 as builder
+COPY . /app
+WORKDIR /app
+RUN ./gradlew build
+
+# Stage 2: Create the final image
 FROM liferay/dxp:7.4.13-u80
-
-# Copy your custom configurations (if any)
-COPY configs/ /opt/liferay/
-
-# Create the deploy directory
-RUN mkdir -p /opt/liferay/deploy
-
-# Copy built modules and themes
-COPY deploy/modules/*.jar /opt/liferay/deploy/
-COPY deploy/wars/*.war /opt/liferay/deploy/
-
-# Expose the default Liferay port
+COPY --from=builder /app/modules/*.jar /opt/liferay/deploy/
+COPY --from=builder /app/wars/*.war /opt/liferay/deploy/
 EXPOSE 8080
-
-# Start Liferay
 CMD ["catalina.sh", "run"]
