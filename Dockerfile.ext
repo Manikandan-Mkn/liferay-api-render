@@ -2,11 +2,14 @@
 FROM liferay/dxp:7.4.13-u80
 
 # Copy your custom configurations (if any)
-COPY configs/ /usr/local/liferay-ce-portal/
+COPY configs/ /opt/liferay/
 
-# Copy your modules, themes, and WAR files
-COPY modules/*.jar /usr/local/liferay-ce-portal/deploy/
-COPY wars/*.war /usr/local/liferay-ce-portal/deploy/
+# Create the deploy directory if it doesn't exist
+RUN mkdir -p /opt/liferay/deploy
+
+# Copy your modules and WAR files (if they exist)
+COPY modules/*.jar /opt/liferay/deploy/
+COPY wars/*.war /opt/liferay/deploy/
 
 # Expose the default Liferay port
 EXPOSE 8080
