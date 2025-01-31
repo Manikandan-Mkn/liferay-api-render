@@ -1,18 +1,23 @@
-# Use the official Liferay DXP image as the base image
 FROM liferay/dxp:7.4.13-u80
 
-# Copy your custom configurations (if any)
 COPY configs/ /opt/liferay/
-
-# Create the deploy directory if it doesn't exist
 RUN mkdir -p /opt/liferay/deploy
 
-# Copy your modules and WAR files (if they exist)
-COPY modules/*.jar /opt/liferay/deploy/
-COPY wars/*.war /opt/liferay/deploy/
+# Copy modules only if the directory is not empty
+COPY modules/ /opt/liferay/deploy/modules/
+RUN if [ -z "$(ls -A /opt/liferay/deploy/modules/)" ]; then \
+    echo "No modules found"; \
+    else \
+    echo "Modules copied successfully"; \
+    fi
 
-# Expose the default Liferay port
+# Copy wars only if the directory is not empty
+COPY wars/ /opt/liferay/deploy/wars/
+RUN if [ -z "$(ls -A /opt/liferay/deploy/wars/)" ]; then \
+    echo "No wars found"; \
+    else \
+    echo "Wars copied successfully"; \
+    fi
+
 EXPOSE 8080
-
-# Start Liferay
 CMD ["catalina.sh", "run"]
