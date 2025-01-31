@@ -1,0 +1,4 @@
+Bundle-Name: latest-news-api
+Bundle-SymbolicName: com.latest.news.api
+Bundle-Version: 1.0.0
+Export-Package: com.latest.news.api.constants
