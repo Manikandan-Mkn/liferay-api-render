@@ -1,23 +1,12 @@
 FROM liferay/dxp:7.4.13-u80
 
+# List files in the build context
+RUN ls -l /home/user/liferay-project/
+
+# Continue with the rest of your Dockerfile
 COPY configs/ /opt/liferay/
 RUN mkdir -p /opt/liferay/deploy
-
-# Copy modules only if the directory is not empty
-COPY modules/ /opt/liferay/deploy/modules/
-RUN if [ -z "$(ls -A /opt/liferay/deploy/modules/)" ]; then \
-    echo "No modules found"; \
-    else \
-    echo "Modules copied successfully"; \
-    fi
-
-# Copy wars only if the directory is not empty
-COPY wars/ /opt/liferay/deploy/wars/
-RUN if [ -z "$(ls -A /opt/liferay/deploy/wars/)" ]; then \
-    echo "No wars found"; \
-    else \
-    echo "Wars copied successfully"; \
-    fi
-
+COPY modules/*.jar /opt/liferay/deploy/
+COPY wars/*.war /opt/liferay/deploy/
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
