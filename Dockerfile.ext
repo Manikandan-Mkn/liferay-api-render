@@ -1,12 +1,37 @@
-# Stage 1: Build the application
-FROM liferay/dxp:7.4.13-u80 as builder
-COPY . /app
+# Use the official Liferay DXP image as the base image
+FROM liferay/dxp:7.4.13-u80
+
+# Install Zulu JDK 11
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://cdn.azul.com/zulu/bin/zulu11.62.17-ca-jdk11.0.18-linux_x64.tar.gz && \
+    tar -xvzf zulu11.62.17-ca-jdk11.0.18-linux_x64.tar.gz -C /opt && \
+    rm zulu11.62.17-ca-jdk11.0.18-linux_x64.tar.gz && \
+    update-alternatives --install /usr/bin/java java /opt/zulu11.62.17-ca-jdk11.0.18-linux_x64/bin/java 1 && \
+    update-alternatives --install /usr/bin/javac javac /opt/zulu11.62.17-ca-jdk11.0.18-linux_x64/bin/javac 1
+
+# Verify Java installation
+RUN java -version
+
+# Set working directory
 WORKDIR /app
+
+# Copy the entire project
+COPY . .
+
+# Make gradlew executable
+RUN chmod +x gradlew
+
+# Build the project
 RUN ./gradlew build
 
-# Stage 2: Create the final image
-FROM liferay/dxp:7.4.13-u80
-COPY --from=builder /app/modules/*.jar /opt/liferay/deploy/
-COPY --from=builder /app/wars/*.war /opt/liferay/deploy/
+# Copy built artifacts to the deploy directory
+RUN mkdir -p /opt/liferay/deploy
+COPY modules/*.jar /opt/liferay/deploy/
+COPY wars/*.war /opt/liferay/deploy/
+
+# Expose the default Liferay port
 EXPOSE 8080
+
+# Start Liferay
 CMD ["catalina.sh", "run"]
